@@ -6,6 +6,7 @@ import urlparse
 import hashlib
 import re
 import sys 
+import os
 import json
 from PIL import Image
 from PIL import ImageGrab
@@ -14,7 +15,7 @@ reload(sys)
 sys.setdefaultencoding( "utf-8" )
 
 import pytesseract
-pytesseract.pytesseract.tesseract_cmd= "F:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+pytesseract.pytesseract.tesseract_cmd= os.getcwd() + "/Tesseract-OCR/tesseract.exe"
 
 def OCR(filepath, lang_="vie"):
 	im = Image.open(filepath)
