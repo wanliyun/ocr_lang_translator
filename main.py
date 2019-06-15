@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from bottle import route, run, template
 from bottle import request
 from bottle import static_file
