@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<title>翻译：越南语言->中文</title>
+<style type="text/css">
+#box{ width:200px; height:200px; border:1px solid #ddd; }
+.test-textarea {
+      display: block;
+      width: 400px;
+      height: 60px;
+      line-height: 30px;
+      padding: 10px;
+      margin: 0 auto;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 12px;
+      word-wrap: break-word;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-user-modify: read-write-plaintext-only;
+    }
+#div_textarea{
+    float: left;
+}
+#div_cent {
+    float: left;
+}
+#div_image {
+    float: left;
+	border:1px dashed #000;
+}
+</style>
+</head>
+<body>
+
+<center><h3>翻译：越南语言->中文</h3></center>
+<hr/>
+<div>
+	<div id="div_textarea"><input type="textarea" id="testInput" name="testInput" rows="4" cols="180" class="test-textarea" placeholder="截屏后粘贴到输入框中" width="400" height="300" /></div>
+	<div id="div_cent"><h3>显示图片：</h3></div>
+	<div id="div_image"><img id = "pasteImg"/></div>
+</div>
+<script type="text/javascript">
+(function(){
+	function upload_file_with_ajax(file){
+	  var formData = new FormData();
+	  formData.append('filedata', file);
+	  $.ajax('/upload' , {
+		type: 'POST',
+		contentType: false,
+		processData: false,
+		data: formData,
+		error: function() {
+		  console.log("error");
+		},
+		success: function(res) {
+			var area = document.getElementById( 'testInput' );
+			area.value  =  res;
+			area.innerHTML  =  res;
+			area.innerText  =  res;
+			area.textContent  =  res;
+			var iObj = document.getElementById('baidu_trans_frame').contentDocument; 
+			if(iObj)
+			{
+				iObj.getElementById('baidu_translate_input').innerHTML = "" + res
+			}
+			else
+			{
+				document.getElementById('baidu_trans_frame').src = "https://fanyi.baidu.com/?aldtype=16047#vie/zh/" + res;
+			} 	
+		}
+	  });
+	}
+
+	function showfile(file){
+		var reader = new FileReader();
+        reader.onload = function(event) {
+			document.getElementById( 'pasteImg' ).src = event.target.result;
+		}
+		reader.readAsDataURL(file);
+	}
+
+    document.getElementById( 'testInput' ).addEventListener( 'paste', function(event){
+	  var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+	  for (var i = 0 ; i < items.length ; i++) {
+		var item = items[i];
+		if (item.type.indexOf("image") != -1) {
+		  var file = item.getAsFile();
+		  
+		  showfile(file);
+		  upload_file_with_ajax(file);
+		}
+	  }
+	});
+})();  
+</script>
+<iframe src="https://fanyi.baidu.com/?aldtype=16047#vie/zh/" id="baidu_trans_frame" frameborder="0" width="90%" scrolling="No" height="800" leftmargin="0" topmargin="0"></iframe>
+
+</body>
+</html>
