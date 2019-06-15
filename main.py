@@ -23,6 +23,11 @@ def root():
 #定义上传路径
 save_path = './static/upload/'
 
+
+import os
+if not os.path.exists(save_path):
+    os.makedirs(save_path) 
+
 #文件上传，overwrite=True为覆盖原有的文件，
 #如果不加这参数，当服务器已存在同名文件时，将返回“IOError: File exists.”错误
 @route('/upload', method = 'POST')
